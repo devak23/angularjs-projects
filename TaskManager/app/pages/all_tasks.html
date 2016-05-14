@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-1">
+    <button class="btn btn-primary" ng-click="tlc.addNewTask()"><i class="fa fa-tasks"></i> New Task</button>
+  </div>
+  <div class="col-md-1 mleft10">
+    <button class="btn btn-default" ng-click="tlc.addQuickly()"><i class="fa fa-flash"></i> Quick Add</button>
+  </div>
+  <div class="col-md-1 mleft10">
+    <button class="btn btn-link" ng-click="tlc.addNewTask()"><i class="fa fa-file-excel-o"></i> Export to Excel </button>
+  </div>
+  <div class="col-md-6"></div>
+  <div class="col-md-3 pull-right">
+    <input class="form-control" ng-click="search = ''" type="text" placeholder="Find ..." ng-model="search"/>
+    <br/>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <toaster-container></toaster-container>
+    <div infinite-scroll="tlc.loadMoreTasks()" infinite-scroll-distance="0">
+      <table class="table table-striped table-responsive">
+        <thead>
+        <tr>
+          <td ng-repeat="header in tlc.taskVO.headers">
+            <span class="bold">{{ header | uppercase }}</span>
+          </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="task in tlc.taskVO.allTasks | filter: search" class="animate-repeat repeat-item">
+          <td class="col-md-1" style="margin-right: -5px" align="left">{{task.srno}}</td>
+          <td class="col-md-1" align="left">{{task.name}}</td>
+          <td class="col-md-4" align="left">{{task.desc}}</td>
+          <td class="col-md-1" align="left">{{task.stdt | date: 'dd/MM/yy'}}</td>
+          <td class="col-md-1" align="left">{{task.enddt | date: 'dd/MM/yy'}}</td>
+          <td class="col-md-1" align="left">{{task.assignee}}</td>
+          <td class="col-md-1" align="left">{{task.status}}</td>
+          <td class="col-md-2" align="left">
+            <a href="javascript:;" class="fa fa-lg fa-info-circle" ng-click="tlc.viewTask(task)"></a>
+            <a href="javascript:;" class="fa fa-lg fa-edit mleft4 mright4" ng-click="tlc.editTask(task)"></a>
+            <a href="javascript:;" class="fa fa-lg fa-trash mleft4 mright4" ng-click="tlc.deleteTask(task)"></a>
+            <a href="javascript:;" class="fa fa-lg fa-comments" ng-click="tlc.viewComments(task)"></a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h4>{{modalOptions.headerText}}</h4>
+</div>
+<div class="modal-body">
+  <form name="taskForm" ng-submit="ntc.saveTask()" novalidate>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 form-group required">
+        <label class="control-label" for="taskName">Name</label>
+        <input type="text"
+               class="form-control"
+               id="taskName"
+               name="taskName"
+               ng-model="taskVO.task.name"
+               ng-minlength="6"
+               ng-maxlength="20"
+               name-validator=""
+               required/>
+      </div>
+      <div class="col-sm-3 form-group required">
+        <label class="control-label" for="taskAssignedTo">Assigned To</label>
+        <select id="taskAssignedTo"
+                class="form-control"
+                name="tasDesc"
+                data-ng-model="taskVO.task.desc"
+                required>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 form-group required">
+        <label class="control-label" for="taskStDt">Start Date</label>
+        <input type="date"
+               id="taskStDt"
+               class="form-control"
+               name="taskStatus"
+               ng-model="taskVO.task.startDt"
+               required>
+      </div>
+      <div class="col-sm-3 form-group required">
+        <label class="control-label" for="taskStEndDt">End Date</label>
+        <input type="date"
+               id="taskStEndDt"
+               class="form-control"
+               name="taskStEndDt"
+               ng-model="taskVO.task.endDt"
+               required>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button"
+          class="btn btn-warning"
+          data-ng-click="modalOptions.close()">
+    <i class="fa fa-remove mright4"></i>{{modalOptions.closeButtonText}}
+  </button>
+  <button class="btn btn-primary"
+          data-ng-click="modalOptions.ok();">
+    <i class="fa fa-save mright4"></i>{{modalOptions.actionButtonText}}
+  </button>
+</div>
+

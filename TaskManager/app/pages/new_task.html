@@ -1,0 +1,105 @@
+<div class="modal-header">
+  <h4>{{modalOptions.headerText}}</h4>
+</div>
+<div class="modal-body">
+  <!--<form name="taskForm" class="main-form" ng-submit="ntc.saveTask()" novalidate>-->
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 form-group required">
+        <label class="control-label" for="taskName">Name</label>
+        <input type="text"
+               class="form-control"
+               id="taskName"
+               name="taskName"
+               ng-model="taskVO.task.name"
+               ng-minlength="6"
+               ng-maxlength="20"
+               name-validator=""
+               required/>
+      </div>
+      <div class="col-sm-3 form-group required">
+        <label for="taskAssignedTo">Assigned To</label>
+        <select id="taskAssignedTo"
+                  class="form-control"
+                  name="tasDesc"
+                  data-ng-model="taskVO.task.desc"
+                  required>
+
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 form-group required">
+        <label for="taskDesc">Description</label>
+        <textarea id="taskDesc"
+                  class="form-control"
+                  name="tasDesc"
+                  data-ng-model="taskVO.task.desc"
+                  ng-minlength="6"
+                  ng-maxlength="100"
+                  rows="10">
+        </textarea>
+      </div>
+      <div class="col-sm-3 form-group required">
+        <div class="row">
+          <div class="col-sm-12">
+            <label for="taskStDt">Start Date</label>
+            <input type="date"
+                   id="taskStDt"
+                   class="form-control"
+                   name="taskStatus"
+                   ng-model="taskVO.task.startDt"
+                   required>
+          </div>
+        </div>
+        <div class="row mtop30">
+          <div class="col-sm-12 form-group required">
+            <label for="taskStEndDt">End Date</label>
+            <input type="date"
+                   id="taskStEndDt"
+                   class="form-control"
+                   name="taskStEndDt"
+                   ng-model="taskVO.task.endDt"
+                   required>
+          </div>
+        </div>
+        <div class="row mtop17">
+          <div class="col-sm-12 form-group required">
+            <label for="taskStatus">Status</label>
+            <select id="taskStatus"
+                    class="form-control"
+                    name="tasDesc"
+                    data-ng-model="taskVO.task.desc"
+                    required>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 form-group required">
+        <label for="taskComments">Comments</label>
+        <textarea id="taskComments"
+                  class="form-control"
+                  name="taskComments"
+                  ng-maxlength="2000"
+                  data-ng-model = "taskVO.task.comments"
+                  rows = "8">
+        </textarea>
+      </div>
+    </div>
+  </div>
+  <!--</form>-->
+</div>
+<div class="modal-footer">
+  <button type="button"
+          class="btn btn-warning"
+          data-ng-click="modalOptions.close()">
+    <i class="fa fa-remove mright4"></i>{{modalOptions.closeButtonText}}
+  </button>
+  <button class="btn btn-primary"
+          data-ng-click="modalOptions.ok();">
+    <i class="fa fa-save mright4"></i>{{modalOptions.actionButtonText}}
+  </button>
+</div>
+

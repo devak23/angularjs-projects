@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h4 class="pull-left">{{ vtc.taskVO.modalOptions.headerText }}</h4>
+  <span class="pull-right mtop10"><strong>Status: </strong>{{ vtc.taskVO.task.status}}</span>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-6">
+      <strong>Name:</strong> {{ vtc.taskVO.task.name }}
+    </div>
+    <div class="col-sm-6">
+      <strong>Assigned To:</strong> {{ vtc.taskVO.task.assignee }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <label>Description</label>
+      <p>{{ vtc.taskVO.task.desc }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <strong>Start Date: </strong> {{ vtc.taskVO.task.stdt | date: 'dd, MMM yyyy' }}
+    </div>
+    <div class="col-sm-6">
+      <strong>End Date: </strong> {{ vtc.taskVO.task.enddt | date: 'dd, MMM yyyy' }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <label>Comments</label>
+      <p> {{vtc.taskVO.task.comments | none }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button"
+          class="btn btn-primary"
+          data-ng-click="vtc.taskVO.modalOptions.close()">
+    {{vtc.taskVO.modalOptions.closeButtonText}}
+  </button>
+</div>
+

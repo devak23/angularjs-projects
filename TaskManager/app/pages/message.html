@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4>{{modalOptions.headerText}}</h4>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2"><i class="fa fa-warning fa-4x" style="color:red"></i></div>
+      <div class="col-sm-10 mtop17">{{modalOptions.bodyText}}</div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button"
+          class="btn"
+          data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}
+  </button>
+  <button class="btn btn-warning"
+          data-ng-click="modalOptions.ok();">{{modalOptions.actionButtonText}}
+  </button>
+</div>
