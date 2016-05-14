@@ -1,35 +1,71 @@
-<div class="modal-header">
+<div class="modal-header header">
   <h4 class="pull-left">{{ vtc.taskVO.modalOptions.headerText }}</h4>
-  <span class="pull-right mtop10"><strong>Status: </strong>{{ vtc.taskVO.task.status}}</span>
+  <span class="pull-right">
+    <a href="javascript:;" ng-click="vtc.taskVO.modalOptions.close()"><i class="fa fa-close"></i></a>
+  </span>
 </div>
 <div class="modal-body">
   <div class="row">
-    <div class="col-sm-6">
-      <strong>Name:</strong> {{ vtc.taskVO.task.name }}
-    </div>
-    <div class="col-sm-6">
-      <strong>Assigned To:</strong> {{ vtc.taskVO.task.assignee }}
+    <div class="col-sm-12">
+      <span class="bolder allcaps view-label">Name:</span> {{ vtc.taskVO.task.name }}
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
-      <label>Description</label>
+      <hr/>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <span class="bolder allcaps view-label">Description:</span>
       <p>{{ vtc.taskVO.task.desc }}</p>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <hr/>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-sm-6">
-      <strong>Start Date: </strong> {{ vtc.taskVO.task.stdt | date: 'dd, MMM yyyy' }}
+      <span class="bolder allcaps view-label">Assigned To:</span> {{ vtc.taskVO.task.assignee }}
+    </div>
+
+    <div class="col-sm-6">
+      <span class="bolder allcaps view-label">Status: </span>{{ vtc.taskVO.task.status}}
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <hr/>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-6">
+      <span class="bolder allcaps view-label">Start Date: </span> {{ vtc.taskVO.task.stdt | date: 'dd, MMM yyyy' }}
     </div>
     <div class="col-sm-6">
-      <strong>End Date: </strong> {{ vtc.taskVO.task.enddt | date: 'dd, MMM yyyy' }}
+      <span class="bolder allcaps view-label">End Date: </span> {{ vtc.taskVO.task.enddt | date: 'dd, MMM yyyy' }}
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm-12">
-      <label>Comments</label>
+      <hr/>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <span class="bolder allcaps view-label">Comments:</span>
       <p> {{vtc.taskVO.task.comments | none }}</p>
     </div>
   </div>

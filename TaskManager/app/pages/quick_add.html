@@ -1,5 +1,8 @@
-<div class="modal-header">
-  <h4>{{modalOptions.headerText}}</h4>
+<div class="modal-header header">
+  <h4 class="pull-left">{{ ntc.taskVO.modalOptions.headerText }}</h4>
+  <span class="pull-right">
+    <a href="javascript:;" ng-click="ntc.taskVO.modalOptions.close()"><i class="fa fa-close"></i></a>
+  </span>
 </div>
 <div class="modal-body">
   <form name="taskForm" ng-submit="ntc.saveTask()" novalidate>
@@ -21,9 +24,12 @@
         <label class="control-label" for="taskAssignedTo">Assigned To</label>
         <select id="taskAssignedTo"
                 class="form-control"
-                name="tasDesc"
-                data-ng-model="taskVO.task.desc"
+                name="taskAssignee"
+                data-ng-model="taskVO.task.assignee"
                 required>
+          <option ng-repeat="assignee in ntc.taskVO.assignees">
+            {{ assignee }}
+          </option>
         </select>
       </div>
     </div>
@@ -53,12 +59,12 @@
 <div class="modal-footer">
   <button type="button"
           class="btn btn-warning"
-          data-ng-click="modalOptions.close()">
-    <i class="fa fa-remove mright4"></i>{{modalOptions.closeButtonText}}
+          data-ng-click="ntc.taskVO.modalOptions.close()">
+    {{ntc.taskVO.modalOptions.closeButtonText}}
   </button>
   <button class="btn btn-primary"
-          data-ng-click="modalOptions.ok();">
-    <i class="fa fa-save mright4"></i>{{modalOptions.actionButtonText}}
+          data-ng-click="ntc.taskVO.modalOptions.ok();">
+    {{ntc.taskVO.modalOptions.actionButtonText}}
   </button>
 </div>
 

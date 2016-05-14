@@ -11,7 +11,7 @@
     $scope.title = "Task Manager"
   }
 
-  // ------------------ ViewTaskController ----------------------------
+  // ------------------ ViewTaskController ----------------------------//
   angular.module("TaskManagerApp")
     .controller('ViewTaskController', ViewTaskController);
 
@@ -21,7 +21,7 @@
     this.taskVO = {};
     this.taskVO.modalOptions = {
       closeButtonText : "Close",
-      headerText: "View Task Details",
+      headerText: "Task Details",
       close: function (result) {
         $uibModalInstance.dismiss('close');
       }
@@ -29,15 +29,41 @@
     this.taskVO.task = task;
   }
 
-  // ------------------ NewTaskController ----------------------------
+  // ------------------ NewTaskController ----------------------------//
   angular.module('TaskManagerApp')
     .controller('NewTaskController', NewTaskController);
-  
-  function NewTaskController() {
 
+  NewTaskController.$inject = ['$scope','TaskMgrService','$log','$uibModalInstance','taskFactory','toaster'];
+
+  function NewTaskController($scope, TaskMgrService, $log, $uibModalInstance, taskFactory, toaster) {
+    var vm = this;
+    this.taskVO = TaskMgrService.getTaskVO();
+    this.taskVO.assignees = taskFactory.getAssignees();
+    this.taskVO.modalOptions = {
+      closeButtonText : "Cancel",
+      actionButtonText : "Save",
+      headerText: "Create New Task",
+      close: function (result) {
+        $uibModalInstance.dismiss('close');
+      },
+      ok : function (result) {
+        vm.saveTask($scope.taskVO);
+        $uibModalInstance.close(result);
+      }
+    };
+
+    this.saveTask = function (taskVO) {
+      TaskMgrService.saveTask(taskVO.task, this.taskVO.allTasks);
+      toaster.pop({
+        type: 'success',
+        title: 'Success!',
+        body: 'Task has been saved successfully and should now appear in the list of tasks',
+        showCloseButton: true
+      });
+    }
   }
   
-  // ------------------ TaskListController ----------------------------
+  // ------------------ TaskListController ----------------------------//
   angular.module('TaskManagerApp')
     .controller('TaskListController', TaskListController);
 
@@ -103,21 +129,16 @@
 
     vm.addQuickly = function () {
       $log.debug("adding task quickly");
-      var modalOptions = {
-        closeButtonText : "Cancel",
-        actionButtonText : "Save",
-        headerText: "Create New Task",
-        bodyText:"Creating newTask"
-      };
-
       var modalDefaults = {
         backdrop: true,
         keyboard: true,
         modalFade: true,
-        templateUrl: 'pages/quick_add.html'
+        templateUrl: 'pages/quick_add.html',
+        controller: 'NewTaskController',
+        controllerAs: 'ntc'
       };
 
-      modalDlgSvc.showModal(modalDefaults, modalOptions)
+      modalDlgSvc.showModal(modalDefaults, {})
         .then(function (result) {
           $log.debug(result);
         });
