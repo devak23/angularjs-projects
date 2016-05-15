@@ -13,6 +13,7 @@
       ,'infinite-scroll'
       ,'toaster'
       ,'ngMessages'
+      ,'firebase'
     ])
     .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
