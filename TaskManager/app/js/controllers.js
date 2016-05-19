@@ -3,20 +3,18 @@
 
   // ------------------ HomeController ----------------------------
   angular.module("TaskManagerApp")
-    .controller('HomeController', HomeController);
+    .controller('HomeController', HomeController)
+    .controller('ViewTaskController', ViewTaskController)
+    .controller('NewTaskController', NewTaskController)
+    .controller('TaskListController', TaskListController);
 
   HomeController.$inject = ['$scope'];
-
   function HomeController($scope) {
     $scope.title = "Task Manager"
   }
 
   // ------------------ ViewTaskController ----------------------------//
-  angular.module("TaskManagerApp")
-    .controller('ViewTaskController', ViewTaskController);
-
   ViewTaskController.$inject = ['$log', '$scope', 'task', '$uibModalInstance'];
-
   function ViewTaskController($log, $scope, task, $uibModalInstance) {
     this.taskVO = {};
     this.taskVO.modalOptions = {
@@ -30,16 +28,12 @@
   }
 
   // ------------------ NewTaskController ----------------------------//
-  angular.module('TaskManagerApp')
-    .controller('NewTaskController', NewTaskController);
-
-  NewTaskController.$inject = ['$scope','TaskMgrService','$log','$uibModalInstance','taskFactory','toaster'];
-
-  function NewTaskController($scope, TaskMgrService, $log, $uibModalInstance, taskFactory, toaster) {
+  NewTaskController.$inject = ['$scope','TaskVO','$log', '$location', 'toaster'];
+  function NewTaskController($scope, TaskVO, $log, $location, toaster) {
     var vm = this;
-    this.taskVO = TaskMgrService.getTaskVO();
-    this.taskVO.assignees = taskFactory.getAssignees();
-    this.taskVO.modalOptions = {
+    this.taskVO = new TaskVO();
+
+    this.modalOptions = {
       closeButtonText : "Cancel",
       actionButtonText : "Save",
       headerText: "Create New Task",
@@ -47,36 +41,35 @@
         $uibModalInstance.dismiss('close');
       },
       ok : function (result) {
-        vm.saveTask($scope.taskVO);
+        vm.taskVO.quickSave(vm.taskVO.task);
+        toaster.pop({
+          type: 'success',
+          title: 'Success!',
+          body: 'Task has been saved successfully and should now appear in the list of tasks',
+          showCloseButton: true
+        });
+
         $uibModalInstance.close(result);
       }
     };
 
     this.saveTask = function (taskVO) {
-      TaskMgrService.saveTask(taskVO.task, this.taskVO.allTasks);
+      vm.taskVO.saveTask(task);
       toaster.pop({
         type: 'success',
         title: 'Success!',
         body: 'Task has been saved successfully and should now appear in the list of tasks',
         showCloseButton: true
       });
-    }
+    };
   }
   
   // ------------------ TaskListController ----------------------------//
-  angular.module('TaskManagerApp')
-    .controller('TaskListController', TaskListController);
-
-  TaskListController.$inject = [
-    '$log'
-    , '$location'
-    , 'TaskMgrService'
-    , 'modalDlgSvc'
-    , '$timeout'
-    , 'toaster'];
-  function TaskListController($log, $location, TaskMgrService, modalDlgSvc, $timeout,toaster) {
+  TaskListController.$inject = ['$log', '$location', 'TaskVO', 'modalDlgSvc', '$timeout', 'toaster'];
+  function TaskListController($log, $location, TaskVO, modalDlgSvc, $timeout, toaster) {
     var vm = this;
-    vm.taskVO = TaskMgrService.getTaskVO();
+    vm.taskVO = new TaskVO();
+    vm.taskVO.loadTasks();
 
 
     vm.deleteTask = function (task) {
@@ -84,28 +77,22 @@
         closeButtonText: "Cancel",
         actionButtonText: "Delete Task",
         headerText: "Please confirm",
-        bodyText: "Are you sure you want to delete " + task.name + " ?"
+        bodyText: "Are you sure you want to delete " + task.title + " ?"
       };
 
       modalDlgSvc.showModal({}, modalOptions)
         .then(function (result) {
-          $log.info("deleting task: " + task.name);
-          TaskMgrService.deleteTask(task, vm.taskVO);
+          $log.info("deleting task: " + task.title);
+          vm.taskVO.deleteTask(task);
           toaster.pop({
             type: 'info',
             title: 'Delete successful',
-            body: 'Task - ' + task.name + ' was deleted successfully',
+            body: 'Task - ' + task.title + ' was deleted successfully',
             showCloseButton: true
           })
         });
     };
 
-    vm.loadMoreTasks = function () {
-      $log.info("loading more tasks...");
-      $timeout(function () {
-        TaskMgrService.loadTasks(vm.taskVO);
-      });
-    };
 
     vm.viewTask = function(task) {
       var modalDefaults = {
@@ -143,6 +130,5 @@
           $log.debug(result);
         });
     };
-    vm.loadMoreTasks();
   }
 })();

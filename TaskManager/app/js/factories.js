@@ -2,72 +2,78 @@
   "use strict";
   angular
     .module('TaskManagerApp')
-    .factory('taskFactory', taskFactory);
+    .factory('TaskVO', TaskFactory);
 
-  function taskFactory() {
-    var assignees = ['Shreyas', 'Avinash', 'Mayur', 'Kalyani', 'Paridhi', 'Yamshee', 'Neeraja', 'Sushma', 'Priyanka', 'Monika', 'Abhay'];
-    var statuses = ['New', 'Completed', 'Need more info', 'Pending', 'Work in Progress', 'Canceled'];
-    var headers = ['Sr#', 'Name', 'Description', 'Start date', 'End date', 'Assignee','Status', 'Actions'];
-    var descriptions = [
-      "Nulla rutrum feugiat purus, tempor semper nisi dapibus et. Nam blandit, lacus nec rhoncus rutrum, justo felis bibendum lacus, eget commodo tortor erat sit amet eros. Pellentesque luctus tempus nisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla sit amet lorem ut augue lobortis sollicitudin nec et elit. Integer nec turpis nisi. Donec ullamcorper, nunc id maximus molestie, dui enim rhoncus justo, quis eleifend neque nulla ac metus. Vestibulum dignissim sed leo nec tincidunt. Nullam rhoncus turpis eu eros aliquet, at malesuada ex pretium.",
-      "Maecenas auctor fringilla nunc, nec laoreet est sodales blandit. Aenean imperdiet justo vitae elit vestibulum feugiat. Curabitur consequat mauris lorem, at accumsan lacus elementum id. Integer faucibus enim et neque pretium imperdiet. Donec vulputate, elit vitae blandit rhoncus, odio tortor dictum erat, sed tempus leo risus in eros. Nunc condimentum mi ac justo venenatis, a pretium neque convallis. Phasellus auctor, ligula nec faucibus dapibus, turpis ante faucibus tortor, ac dictum felis orci vitae nulla.",
-      "Aliquam ultricies vel velit non venenatis. Maecenas purus sem, porttitor id purus at, suscipit lacinia neque. Praesent in nulla et risus malesuada finibus eget at ante. Phasellus hendrerit hendrerit maximus. Nunc ornare massa vitae auctor eleifend. Aenean sit amet porta eros, at ultrices enim. Phasellus tincidunt, felis ut imperdiet congue, lacus massa dapibus ligula, ac pretium felis dolor eget erat. Maecenas eleifend enim fermentum tortor fermentum bibendum. Integer in libero in sapien dignissim bibendum. Ut gravida massa vel enim suscipit efficitur. Fusce efficitur nisl vel tellus maximus, in semper ex scelerisque. Duis id leo eget ante venenatis accumsan in nec diam. Proin ex risus, mattis dictum laoreet ac, maximus non est. Nunc sed consectetur quam. Suspendisse ex ligula, congue a nisl et, tempus gravida magna.",
-      "Aliquam commodo facilisis euismod. Phasellus a tempor nisi. Maecenas sit amet dapibus magna. Curabitur in elit ex. Morbi venenatis tempor ligula eu pulvinar. Pellentesque nec libero purus. Vivamus gravida tellus odio, id hendrerit nulla euismod non. Phasellus pretium sem at velit faucibus iaculis.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum velit a elit euismod, in hendrerit urna ultrices. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer hendrerit metus ut orci lobortis pharetra. Vivamus turpis lorem, ultrices id eros ut, scelerisque semper sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla condimentum mauris diam, at rhoncus dolor faucibus nec. Maecenas est felis, finibus non viverra id, tempus eget sem. Proin sagittis, enim a fermentum interdum, nulla ex auctor mauris, eget venenatis nunc neque ac mi. Morbi eu nibh orci. Vestibulum vestibulum ante in ante convallis condimentum. Donec nibh sapien, lacinia nec erat sollicitudin, tristique euismod tortor. Curabitur sit amet porta felis."
-    ];
+  TaskFactory.$inject = ['$log', '$firebaseArray'];
 
-    angular.extend(this, {
-      createEmptyTask: function () {
-        return {
-          id: undefined,
-          srno: undefined,
-          name: undefined,
-          desc: undefined,
-          stdt: undefined,
-          enddt: undefined,
-          assignee: undefined,
-          status: undefined
-        }
-      },
-      createTask: function (id, srno, name, desc, stDt, endDt, assignee, status) {
-        var task = this.createEmptyTask();
-        task.id = id;
-        task.name = name;
-        task.desc = desc;
-        task.srno = srno;
-        task.stdt = stDt;
-        task.enddt = endDt;
-        task.assignee = assignee;
-        task.status = status;
+  function TaskFactory($log, $firebaseArray) {
+    var dbRef = new Firebase('https://luminous-fire-4517.firebaseio.com/taskMgrData');
 
-        return task;
-      },
+    var Task = function () {
+      this.srno = undefined;
+      this.title = undefined;
+      this.desc = undefined;
+      this.stdt = undefined;
+      this.expStDt = undefined;
+      this.enddt = undefined;
+      this.expEndDt = undefined;
+      this.assignee = undefined;
+      this.status = undefined;
+    };
 
-      getHeaders: function () {
-        return headers;
-      },
+    var TaskVO = function () {
+      this.assignees = {
+        'Shreyas': 1,
+        'Avinash': 2,
+        'Mayur': 3,
+        'Kalyani': 4,
+        'Paridhi': 5,
+        'Yamshee': 6,
+        'Neeraja': 7,
+        'Sushma': 8,
+        'Priyanka': 9,
+        'Monika': 10,
+        'Abhay': 11
+      };
+      this.statuses = {
+        'New': 1,
+        'Completed': 2,
+        'Need more info': 3,
+        'Pending': 4,
+        'Work in Progress': 5,
+        'Canceled': 6
+      };
+      this.headers = ['Sr#', 'Name', 'Description', 'Start date', 'End date', 'Assignee', 'Status', 'Actions'];
+      this.task = new Task();
+      this.allTasks = [];
+      this.busy = true;
+    };
 
-      getStatuses: function () {
-        return statuses;
-      },
+    TaskVO.prototype.quickSave = function (task) {
+      task.status = 'New';
+      task.desc = 'TBD';
+      task.expStDt = 'TBD';
+      task.expEndDt = 'TBD';
+      task.srno = this.allTasks.length + 1;
+      this.saveTask(task);
+    };
 
-      getAssignees: function () {
-        return assignees;
-      },
+    TaskVO.prototype.saveTask = function (task) {
 
-      getRandomDesc: function () {
-        return descriptions[Math.floor(Math.random() * descriptions.length)];
-      },
+    };
 
-      getRandomStatus: function () {
-        return statuses[Math.floor(Math.random() * statuses.length)];
-      },
+    TaskVO.prototype.deleteTask = function (task) {
 
-      getRandomAssignee: function () {
-        return assignees[Math.floor(Math.random() * assignees.length)];
-      }
-    });
+    };
 
-    return this;
+    TaskVO.prototype.newTask = function (taskVO) {
+      return taskVO.task = new Task();
+    };
+
+    TaskVO.prototype.loadTasks = function () {
+      this.allTasks = $firebaseArray(dbRef);
+    };
+
+    return TaskVO;
   }
 })();

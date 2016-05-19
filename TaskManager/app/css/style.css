@@ -70,9 +70,9 @@ a, a:link, a:hover, a:active, a:visited {text-decoration: none}
     text-overflow: clip;
     white-space:nowrap;
 }
-
 .animate-leave.animate-leave-active, .animate-enter {opacity: 0; width: 0px; height: 0px;}
 .animate-enter.animate-enter-active, .animate-leave {opacity: 1; width: 150px; height: 30px;}
+
 .vcenter {  display: inline-block; vertical-align: middle; float:none }
 .main-form { position:absolute; right:0; top:0; background:white; width:500px; z-index:100;padding:20px; border-left:2px solid black;min-height:100%;  }
 .form-group.required .control-label:after { content: "*"; color:red;}
@@ -80,3 +80,14 @@ a, a:link, a:hover, a:active, a:visited {text-decoration: none}
 .header { font-family: 'Oswald', serif; background-color: #dddddd }
 .view-label { font-family: 'Oswald', serif; }
 .allcaps { text-transform: capitalize}
+
+input.ng-valid.ng-touched {
+    border: 1px solid #509D12;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid #DA3637;
+}
+.error {
+    color: red
+}

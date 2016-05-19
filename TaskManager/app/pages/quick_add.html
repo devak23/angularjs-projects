@@ -1,11 +1,11 @@
 <div class="modal-header header">
-  <h4 class="pull-left">{{ ntc.taskVO.modalOptions.headerText }}</h4>
+  <h4 class="pull-left">{{ ntc.modalOptions.headerText }}</h4>
   <span class="pull-right">
-    <a href="javascript:;" ng-click="ntc.taskVO.modalOptions.close()"><i class="fa fa-close"></i></a>
+    <a href="javascript:;" ng-click="ntc.modalOptions.close()"><i class="fa fa-close"></i></a>
   </span>
 </div>
 <div class="modal-body">
-  <form name="taskForm" ng-submit="ntc.saveTask()" novalidate>
+  <form name="taskForm" novalidate>
   <div class="container">
     <div class="row">
       <div class="col-sm-3 form-group required">
@@ -14,21 +14,21 @@
                class="form-control"
                id="taskName"
                name="taskName"
-               ng-model="taskVO.task.name"
+               ng-model="ntc.taskVO.task.title"
                ng-minlength="6"
                ng-maxlength="20"
                name-validator=""
                required/>
       </div>
       <div class="col-sm-3 form-group required">
-        <label class="control-label" for="taskAssignedTo">Assigned To</label>
-        <select id="taskAssignedTo"
+        <label class="control-label" for="taskAssignee">Assigned To</label>
+        <select id="taskAssignee"
                 class="form-control"
                 name="taskAssignee"
-                data-ng-model="taskVO.task.assignee"
+                data-ng-model="ntc.taskVO.task.assignee"
                 required>
-          <option ng-repeat="assignee in ntc.taskVO.assignees">
-            {{ assignee }}
+          <option ng-repeat=" (key,value) in ntc.taskVO.assignees track by $index">
+            {{ key }}
           </option>
         </select>
       </div>
@@ -39,17 +39,17 @@
         <input type="date"
                id="taskStDt"
                class="form-control"
-               name="taskStatus"
-               ng-model="taskVO.task.startDt"
+               name="taskStDt"
+               ng-model="ntc.taskVO.task.stdt"
                required>
       </div>
       <div class="col-sm-3 form-group required">
-        <label class="control-label" for="taskStEndDt">End Date</label>
+        <label class="control-label" for="taskEndDt">End Date</label>
         <input type="date"
-               id="taskStEndDt"
+               id="taskEndDt"
                class="form-control"
-               name="taskStEndDt"
-               ng-model="taskVO.task.endDt"
+               name="taskEndDt"
+               ng-model="ntc.taskVO.task.enddt"
                required>
       </div>
     </div>
@@ -59,12 +59,12 @@
 <div class="modal-footer">
   <button type="button"
           class="btn btn-warning"
-          data-ng-click="ntc.taskVO.modalOptions.close()">
-    {{ntc.taskVO.modalOptions.closeButtonText}}
+          data-ng-click="ntc.modalOptions.close()">
+    {{ntc.modalOptions.closeButtonText}}
   </button>
   <button class="btn btn-primary"
-          data-ng-click="ntc.taskVO.modalOptions.ok();">
-    {{ntc.taskVO.modalOptions.actionButtonText}}
+          data-ng-click="ntc.modalOptions.ok();">
+    {{ntc.modalOptions.actionButtonText}}
   </button>
 </div>
 
